@@ -1,10 +1,29 @@
-<!doctype html>
-<html lang="es">
-<head>
+<html lang="es" data-theme="light" data-accent="verde" data-font="rounded" data-textsize="m"><head><style>* { -webkit-text-size-adjust: 86.33333333333333% !important; }</style><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Viáticos Pro v2 • Ajustes, Excel y PIN</title>
-<meta name="version" content="pro-v2-2026-11-15">
+<title>Viáticos Pro v3 • Cada viático por separado · Editar · Corregido</title>
+<meta name="version" content="pro-v3-2026-11-15-cada-viatico-por-separado">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -287,11 +306,34 @@ body.blurred main{filter:blur(14px)}
 .comment-priv{opacity:.6}
 @media (prefers-color-scheme:dark){.switch span{background:#3A3A3C}}
 
+
+/* ===== PRO v3 · Corrección: cada viático por separado + Editar ===== */
+.fix-note{grid-column:1/-1;margin:0;font-size:12px;line-height:1.5;color:var(--mute);background:var(--v-bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.fix-note b{color:var(--ink)}
+.ed.v-ed{border-color:var(--v)}
+.ed.v-ed .btns .ok{background:var(--v);border-color:var(--v)}
+.verify{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:var(--v-bg);color:var(--ink);font-size:13px;font-weight:600;line-height:1.5}
+.verify.ev{background:var(--e-bg)}
+.drow{display:flex;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.drow:last-child{border-bottom:0}
+.drow .l{flex:1;min-width:0}
+.drow .t{font-weight:600}
+.drow .d{font-size:13px;color:var(--mute);overflow-wrap:anywhere}
+.drow .m{font-family:var(--display);font-weight:700;font-size:16px;white-space:nowrap;text-align:right}
+.drow.v .m{color:var(--v)}
+.drow.e .m{color:var(--e)}
+.drow .u{font-family:var(--display);font-weight:600;font-size:13px;color:var(--mute);white-space:nowrap;text-align:right;min-width:62px}
+.edit-btn{flex-shrink:0;min-height:38px;padding:0 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface);font-weight:700;font-size:13px}
+.edit-btn:active{background:var(--ink);color:var(--bg)}
+.drow.v .edit-btn{border-color:var(--v);color:var(--v)}
+.drow.e .edit-btn{border-color:var(--e);color:var(--e)}
+.calc-demo{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px dashed var(--line);font-size:13px;line-height:1.6;color:var(--mute)}
+.calc-demo b{color:var(--ink)}
 </style>
 </head>
 <body>
-<div id="proBanner" style="position:sticky;top:0;z-index:9998;background:#0E7C6B;color:#fff;padding:10px 14px;font:700 13px system-ui;text-align:center;border-radius:0 0 14px 14px">✅ PRO v2 · Ajustes · Excel · PIN · Si ves este banner verde, YA tienes las mejoras <button id="forceUpdate" style="margin-left:8px;background:#fff;color:#0E7C6B;border:0;padding:4px 10px;border-radius:99px;font-weight:800">Forzar actualización</button></div>
-<div id="lockScreen" class="lock" hidden>
+<div id="proBanner" style="position:sticky;top:0;z-index:9998;background:#0E7C6B;color:#fff;padding:10px 14px;font:700 13px system-ui;text-align:center;border-radius:0 0 14px 14px">✅ PRO v3 · CORREGIDO · Cada viático por separado · Botón Editar · Si ves este banner, YA tienes la corrección <button id="forceUpdate" style="margin-left:8px;background:#fff;color:#0E7C6B;border:0;padding:4px 10px;border-radius:99px;font-weight:800">Forzar actualización</button></div>
+<div id="lockScreen" class="lock" hidden="">
   <div class="lock-card">
     <div class="lock-avatar">💰</div>
     <h2>Viáticos</h2>
@@ -307,11 +349,11 @@ body.blurred main{filter:blur(14px)}
     <p class="lock-note" id="lockMsg"></p>
   </div>
 </div>
-<div id="pinModal" class="sheet-backdrop" hidden><div class="sheet"><h3>🔒 Crear PIN de 4 dígitos</h3><p>Este PIN protege tus viáticos y extras. Solo tú lo sabrás. Si lo olvidas, tendrás que borrar los datos locales para crear uno nuevo.</p><input id="newPin" type="password" inputmode="numeric" maxlength="4" placeholder="••••"><input id="newPin2" type="password" inputmode="numeric" maxlength="4" placeholder="Repite tu PIN"><div class="sheet-btns"><button id="pinCancel">Cancelar</button><button id="pinSave">Guardar PIN</button></div></div></div>
-<div id="exportSheet" class="sheet-backdrop" hidden><div class="sheet"><h3 id="sheetTitle">Guardar en iCloud / Drive</h3><p id="sheetBody"></p><div class="sheet-btns"><button id="sheetClose">Entendido</button><button id="sheetAction">Abrir</button></div></div></div>
-<div id="toast" class="toast" hidden></div>
+<div id="pinModal" class="sheet-backdrop" hidden=""><div class="sheet"><h3>🔒 Crear PIN de 4 dígitos</h3><p>Este PIN protege tus viáticos y extras. Solo tú lo sabrás. Si lo olvidas, tendrás que borrar los datos locales para crear uno nuevo.</p><input id="newPin" type="password" inputmode="numeric" maxlength="4" placeholder="••••"><input id="newPin2" type="password" inputmode="numeric" maxlength="4" placeholder="Repite tu PIN"><div class="sheet-btns"><button id="pinCancel">Cancelar</button><button id="pinSave">Guardar PIN</button></div></div></div>
+<div id="exportSheet" class="sheet-backdrop" hidden=""><div class="sheet"><h3 id="sheetTitle">Guardar en iCloud / Drive</h3><p id="sheetBody"></p><div class="sheet-btns"><button id="sheetClose">Entendido</button><button id="sheetAction">Abrir</button></div></div></div>
+<div id="toast" class="toast" hidden=""></div>
 <main>
-  <div class="ios-topbar"><div class="ios-title"><span class="ios-hello">Viáticos</span><span class="ios-sub">PRO v2 · Estilo iOS · Ajustes · Excel · PIN</span></div><button id="lockNow" class="ios-lock" aria-label="Bloquear app" title="Bloquear">🔒</button></div>
+  <div class="ios-topbar"><div class="ios-title"><span class="ios-hello">Viáticos</span><span class="ios-sub">PRO v3 · Corregido · Cada viático por separado</span></div><button id="lockNow" class="ios-lock" aria-label="Bloquear app" title="Bloquear">🔒</button></div>
   <div class="seg tabs ios-seg" role="tablist" aria-label="Vista">
     <button id="tm" class="on" role="tab" aria-selected="true">Mes</button>
     <button id="th" role="tab" aria-selected="false">Historial</button>
@@ -322,47 +364,64 @@ body.blurred main{filter:blur(14px)}
   <div id="vMes">
     <header class="top">
       <button class="nav" id="prev" aria-label="Mes anterior">‹</button>
-      <div class="mt"><h1 id="mname"></h1><button id="today" hidden>Ir al mes actual</button></div>
+      <div class="mt"><h1 id="mname">noviembre 2026</h1><button id="today" hidden="">Ir al mes actual</button></div>
       <button class="nav" id="next" aria-label="Mes siguiente">›</button>
     </header>
 
     <section class="total" aria-live="polite">
       <p class="lbl">Total del mes (viáticos + extras)</p>
       <p class="big" id="total">C$ 0.00</p>
-      <p class="usd" id="totusd"></p>
-      <p class="sub" id="totsub"></p>
+      <p class="usd" id="totusd">≈ US$ 0.00 · tasa 36.6243</p>
+      <p class="sub" id="totsub">Escribe tus tarifas para ver los montos.</p>
     </section>
 
     <section class="fx">
       <div class="fxh"><b>Dólar · tasa oficial BCN</b><button class="fxb" id="fxb">Actualizar</button></div>
       <label class="f">C$ por US$ 1<input id="fxr" type="number" inputmode="decimal" min="1" step="0.0001"></label>
-      <p class="fxs" id="fxs"></p>
+      <p class="fxs" id="fxs">Tasa oficial BCN 2026 (fija todo el año). Sin conexión para verificar.</p>
     </section>
 
     <section class="rates">
-      <label>Viático por día<span class="f"><b>C$</b><input id="rv" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00"></span></label>
-      <label>Extra por unidad<span class="f"><b>C$</b><input id="re" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00"></span></label>
+      <label>Viático por día · para NUEVOS<span class="f"><b>C$</b><input id="rv" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00"></span></label>
+      <label>Extra por unidad · para NUEVOS<span class="f"><b>C$</b><input id="re" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00"></span></label>
       <label class="w">Unidad del extra (hora, día, turno…)<span class="f"><input id="ru" type="text" placeholder="hora" maxlength="20"></span></label>
+      <p class="fix-note"><b>⚠️ CORREGIDO:</b> Cada viático ahora guarda <b>su propio monto</b>. Lo que escribas arriba solo es el monto que se sugiere al crear uno <b>nuevo</b>. Cambiarlo <b>NO</b> cambia los viáticos que ya guardaste. Ejemplo: día 3 = C$ 800 + día 10 = C$ 600 = <b>C$ 1,400</b>, no C$ 1,200.</p>
     </section>
 
     <div class="seg" role="group" aria-label="Qué vas a marcar">
       <button id="mv" class="on v" aria-pressed="true">Viático</button>
       <button id="me" class="e" aria-pressed="false">Extra</button>
     </div>
-    <p class="hint">Toca un día para marcarlo. En Extra se abre un cuadro para anotar la cantidad y un comentario. El punto en el día 15 marca el pago de extras.</p>
+    <p class="hint">Toca un día: en <b>Viático</b> se abre el editor para poner <b>el monto exacto de ese día</b> (800, 600, lo que sea). En <b>Extra</b> se abre el editor de cantidad, precio y comentario. Si te equivocaste, toca <b>✏️ Editar</b> en el detalle de abajo. El punto en el día 15 marca el pago de extras.</p>
 
     <div class="wd" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
-    <div class="grid" id="grid"></div>
+    <div class="grid" id="grid"><span></span><span></span><span></span><span></span><span></span><span></span><button class="day" data-d="1" aria-label="1 de noviembre">1</button><button class="day" data-d="2" aria-label="2 de noviembre">2</button><button class="day" data-d="3" aria-label="3 de noviembre">3</button><button class="day" data-d="4" aria-label="4 de noviembre">4</button><button class="day" data-d="5" aria-label="5 de noviembre">5</button><button class="day" data-d="6" aria-label="6 de noviembre">6</button><button class="day" data-d="7" aria-label="7 de noviembre">7</button><button class="day" data-d="8" aria-label="8 de noviembre">8</button><button class="day" data-d="9" aria-label="9 de noviembre">9</button><button class="day" data-d="10" aria-label="10 de noviembre">10</button><button class="day" data-d="11" aria-label="11 de noviembre">11</button><button class="day" data-d="12" aria-label="12 de noviembre">12</button><button class="day" data-d="13" aria-label="13 de noviembre">13</button><button class="day" data-d="14" aria-label="14 de noviembre">14</button><button class="day now pay" data-d="15" aria-label="15 de noviembre, día de pago de extras">15</button><button class="day" data-d="16" aria-label="16 de noviembre">16</button><button class="day" data-d="17" aria-label="17 de noviembre">17</button><button class="day" data-d="18" aria-label="18 de noviembre">18</button><button class="day" data-d="19" aria-label="19 de noviembre">19</button><button class="day" data-d="20" aria-label="20 de noviembre">20</button><button class="day" data-d="21" aria-label="21 de noviembre">21</button><button class="day" data-d="22" aria-label="22 de noviembre">22</button><button class="day" data-d="23" aria-label="23 de noviembre">23</button><button class="day" data-d="24" aria-label="24 de noviembre">24</button><button class="day" data-d="25" aria-label="25 de noviembre">25</button><button class="day" data-d="26" aria-label="26 de noviembre">26</button><button class="day" data-d="27" aria-label="27 de noviembre">27</button><button class="day" data-d="28" aria-label="28 de noviembre">28</button><button class="day" data-d="29" aria-label="29 de noviembre">29</button><button class="day" data-d="30" aria-label="30 de noviembre">30</button></div>
 
-    <section class="ed" id="ed" hidden>
+    <section class="ed v-ed" id="vd" hidden="">
+      <h2 id="vdt">Viático</h2>
+      <label for="va">Monto de ESTE viático (C$) · solo este día</label>
+      <input id="va" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Ej: 800">
+      <div class="detail-box">
+        <div class="detail-head"><label for="vc" style="margin:0">📝 Detalle / comentario (opcional)</label><span id="vcCount">0 / 200</span></div>
+        <textarea id="vc" placeholder="Ej: viaje a Managua, alimentación, transporte..." maxlength="200" rows="2"></textarea>
+      </div>
+      <p class="verify" id="vVerify"></p>
+      <p class="calc-demo" id="vDemo"></p>
+      <div class="btns"><button id="vrm">Quitar viático</button><button id="vok" class="ok">Listo · Guardar</button></div>
+    </section>
+
+    <section class="ed" id="ed" hidden="">
       <h2 id="edt">Extra</h2>
-      <label for="eq" id="eql">Cantidad</label>
+      <label for="eq" id="eql">Cantidad (horas)</label>
       <input id="eq" type="number" inputmode="decimal" min="0" step="0.25">
+      <label for="er">Precio por unidad de ESTA extra (C$) · solo este día</label>
+      <input id="er" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Ej: 150 por hora">
+      <p class="verify ev" id="eVerify"></p>
       <div class="detail-box">
         <div class="detail-head"><label for="ec" style="margin:0">📝 Detalles / comentarios</label><span id="ecCount">0 / 200</span></div>
         <textarea id="ec" placeholder="Ej: cierre de inventario, horas extra por entrega urgente..." maxlength="200" rows="3"></textarea>
-        <div class="chips" id="ecChips"></div>
-        <label class="check"><input type="checkbox" id="ecInc" checked><span>Incluir este detalle en el resumen y en la exportación a Excel</span></label>
+        <div class="chips" id="ecChips"><button type="button" class="chip-btn">Cierre de inventario</button><button type="button" class="chip-btn">Horas extra</button><button type="button" class="chip-btn">Viaje</button><button type="button" class="chip-btn">Reunión</button><button type="button" class="chip-btn">Entrega urgente</button></div>
+        <label class="check"><input type="checkbox" id="ecInc" checked=""><span>Incluir este detalle en el resumen y en la exportación a Excel</span></label>
         <label class="check"><input type="checkbox" id="ecPriv"><span>🔒 Detalle privado — solo se muestra al desbloquear la app</span></label>
       </div>
       <div class="btns"><button id="erm">Quitar extra</button><button id="eok" class="ok">Listo</button></div>
@@ -371,17 +430,18 @@ body.blurred main{filter:blur(14px)}
     <section class="pie">
       <h2>Viáticos vs. extras</h2>
       <p class="tip">Toca una parte del gráfico o la lista para ver su detalle.</p>
-      <div id="dm"></div>
+      <div id="dm"><div class="donut"><svg viewBox="0 0 200 200" role="img" aria-label="Gráfico de viáticos y extras del mes"><circle class="trk" cx="100" cy="100" r="74"></circle><circle class="sg sv" data-k="v" cx="100" cy="100" r="74" transform="rotate(-90 100 100)" style="stroke-dasharray: 0, 464.955713; stroke-dashoffset: 0px;"></circle><circle class="sg se" data-k="e" cx="100" cy="100" r="74" transform="rotate(-90 100 100)" style="stroke-dasharray: 0, 464.955713; stroke-dashoffset: 0px;"></circle></svg><div class="dc"><span class="l">Sin datos</span><span class="a">—</span><span class="s"></span></div></div><div class="leg"><button class="lg" data-k="v" aria-pressed="false"><i class="dot v"></i><span class="ln"><b>Viáticos</b><small>0% · US$ 0.00</small></span><span class="la">C$ 0.00</span></button><button class="lg" data-k="e" aria-pressed="false"><i class="dot e"></i><span class="ln"><b>Extras</b><small>0% · US$ 0.00</small></span><span class="la">C$ 0.00</span></button></div></div>
     </section>
 
-    <section class="sum" id="pay"></section>
-    <section class="sum" id="sum"></section>
-    <section class="sum" id="xl" hidden></section>
+    <section class="sum" id="pay"><h2>Pago de extras · cada 15</h2><p class="note">Las extras de un mes se pagan el 15 del mes siguiente.</p><div class="th"><span></span><span>C$</span><span>US$</span></div><div class="row e"><div class="l"><div class="t">Extras de octubre</div><div class="d">Se pagan el 15 de noviembre <span class="chip ">Sin extras</span></div></div><div class="m">0.00</div><div class="u">0.00</div></div><div class="row e"><div class="l"><div class="t">Extras de noviembre</div><div class="d">Se pagan el 15 de diciembre <span class="chip ">Sin extras</span></div></div><div class="m">0.00</div><div class="u">0.00</div></div></section>
+    <section class="sum" id="sum"><h2>Resumen del mes</h2><div class="th"><span></span><span>C$</span><span>US$</span></div><div class="row v"><div class="l"><div class="t">Viáticos 1–10</div><div class="d">0 días · cada uno con su propio monto</div></div><div class="m">0.00</div><div class="u">0.00</div></div><div class="row v"><div class="l"><div class="t">Viáticos 11–30</div><div class="d">0 días · cada uno con su propio monto</div></div><div class="m">0.00</div><div class="u">0.00</div></div><div class="row e"><div class="l"><div class="t">Extras del mes</div><div class="d">0 horas en 0 días · cada extra con su propio precio</div></div><div class="m">0.00</div><div class="u">0.00</div></div><div class="row tot"><div class="l"><div class="t">Total del mes</div></div><div class="m">0.00</div><div class="u">0.00</div></div></section>
+    <section class="sum" id="vl" hidden=""></section>
+    <section class="sum" id="xl" hidden=""></section>
     <button class="clear" id="clear">Limpiar este mes</button>
   </div>
 
   <!-- ============ VISTA HISTORIAL ============ -->
-  <div id="vHis" hidden>
+  <div id="vHis" hidden="">
     <header class="top">
       <button class="nav" id="hprev" aria-label="Año anterior">‹</button>
       <div class="mt"><h1 id="hyear"></h1></div>
@@ -398,7 +458,7 @@ body.blurred main{filter:blur(14px)}
     <section class="pie">
       <h2>Viáticos vs. extras del año</h2>
       <p class="tip">Toca una parte del gráfico o la lista para ver su detalle.</p>
-      <div id="dy"></div>
+      <div id="dy"><div class="donut"><svg viewBox="0 0 200 200" role="img" aria-label="Gráfico de viáticos y extras del año"><circle class="trk" cx="100" cy="100" r="74"></circle><circle class="sg sv" data-k="v" cx="100" cy="100" r="74" transform="rotate(-90 100 100)" style="stroke-dasharray: 0, 464.955713; stroke-dashoffset: 0px;"></circle><circle class="sg se" data-k="e" cx="100" cy="100" r="74" transform="rotate(-90 100 100)" style="stroke-dasharray: 0, 464.955713; stroke-dashoffset: 0px;"></circle></svg><div class="dc"><span class="l">Sin datos</span><span class="a">—</span><span class="s"></span></div></div><div class="leg"><button class="lg" data-k="v" aria-pressed="false"><i class="dot v"></i><span class="ln"><b>Viáticos</b><small>0% · US$ 0.00</small></span><span class="la">C$ 0.00</span></button><button class="lg" data-k="e" aria-pressed="false"><i class="dot e"></i><span class="ln"><b>Extras</b><small>0% · US$ 0.00</small></span><span class="la">C$ 0.00</span></button></div></div>
     </section>
 
     <div id="hlist"></div>
@@ -414,25 +474,25 @@ body.blurred main{filter:blur(14px)}
         <button class="btn-ios drive" id="expDrive">🟢 Google Drive</button>
         <button class="btn-ios" id="expSheets">📗 Google Sheets</button>
       </div>
-      <p class="ios-note" id="expStatus">Listo para exportar. Incluye viáticos, extras y todos tus comentarios.</p>
+      <p class="ios-note" id="expStatus">Listo para exportar en C$ (NIO). Incluye viáticos, extras y todos tus comentarios.</p>
     </section>
     <div class="bk">
       <button class="ghost" id="bk">Guardar respaldo</button>
       <button class="ghost" id="rs">Restaurar respaldo</button>
     </div>
-    <input type="file" id="rsf" accept="application/json,.json" hidden>
+    <input type="file" id="rsf" accept="application/json,.json" hidden="">
   </div>
 
   <!-- ============ VISTA AJUSTES ============ -->
-  <div id="vSet" hidden>
+  <div id="vSet" hidden="">
     <p class="set-sub">Personaliza la app como en iOS. Todo se guarda solo en este teléfono, nada se sube a la nube sin que tú lo exportes.</p>
 
     <section class="ios-group">
       <h3>🔒 Seguridad y privacidad</h3>
       <div class="ios-row"><div><b>Bloquear app con PIN</b><small>Solo tú puedes abrir tus datos</small></div><label class="switch"><input type="checkbox" id="setPin"><span></span></label></div>
       <div class="ios-row"><div><b>Face ID / Touch ID</b><small>Desbloquea con tu cara o huella si tu iPhone lo permite</small></div><label class="switch"><input type="checkbox" id="setBio"><span></span></label></div>
-      <div class="ios-row"><div><b>Bloqueo automático</b><small>Después de inactividad</small></div><select id="setAutoLock"><option value="1">1 min</option><option value="2" selected>2 min</option><option value="5">5 min</option><option value="0">Al salir de la app</option></select></div>
-      <div class="ios-row"><div><b>Ocultar al cambiar de app</b><small>Difumina la pantalla en multitarea</small></div><label class="switch"><input type="checkbox" id="setHide" checked><span></span></label></div>
+      <div class="ios-row"><div><b>Bloqueo automático</b><small>Después de inactividad</small></div><select id="setAutoLock"><option value="1">1 min</option><option value="2" selected="">2 min</option><option value="5">5 min</option><option value="0">Al salir de la app</option></select></div>
+      <div class="ios-row"><div><b>Ocultar al cambiar de app</b><small>Difumina la pantalla en multitarea</small></div><label class="switch"><input type="checkbox" id="setHide" checked=""><span></span></label></div>
       <div class="ios-row"><div><b>Cifrado en este teléfono</b><small>AES-256 · Nadie más puede leer tus datos</small></div><span class="badge">ACTIVO</span></div>
       <button class="ios-row-btn" id="changePin">Cambiar PIN ›</button>
       <button class="ios-row-btn" id="lockNow2">🔒 Bloquear ahora ›</button>
@@ -441,9 +501,9 @@ body.blurred main{filter:blur(14px)}
 
     <section class="ios-group">
       <h3>🎨 Apariencia · Color de interfaz</h3>
-      <div class="ios-row"><div><b>Tema</b><small>Como en Ajustes de iOS</small></div><div class="seg-mini" id="themeSeg"><button data-theme="system">Sistema</button><button data-theme="light">Claro</button><button data-theme="dark">Oscuro</button></div></div>
+      <div class="ios-row"><div><b>Tema</b><small>Como en Ajustes de iOS</small></div><div class="seg-mini" id="themeSeg"><button data-theme="system" class="on">Sistema</button><button data-theme="light" class="">Claro</button><button data-theme="dark" class="">Oscuro</button></div></div>
       <div class="color-row" id="colorRow">
-        <button class="color-dot" data-accent="verde" style="background:#0E7C6B" aria-label="Verde"></button>
+        <button class="color-dot on" data-accent="verde" style="background:#0E7C6B" aria-label="Verde"></button>
         <button class="color-dot" data-accent="azul" style="background:#007AFF" aria-label="Azul"></button>
         <button class="color-dot" data-accent="morado" style="background:#AF52DE" aria-label="Morado"></button>
         <button class="color-dot" data-accent="rosa" style="background:#FF2D55" aria-label="Rosa"></button>
@@ -456,30 +516,30 @@ body.blurred main{filter:blur(14px)}
     <section class="ios-group">
       <h3>🔤 Tipo de letra</h3>
       <div class="font-list" id="fontList">
-        <button class="font-opt" data-font="rounded"><span><b style="font-family:ui-rounded,'SF Pro Rounded',sans-serif">Redondeada · Aa</b><br><small>La de iOS, amigable y moderna</small></span><span>✓</span></button>
+        <button class="font-opt on" data-font="rounded"><span><b style="font-family:ui-rounded,'SF Pro Rounded',sans-serif">Redondeada · Aa</b><br><small>La de iOS, amigable y moderna</small></span><span>✓</span></button>
         <button class="font-opt" data-font="system"><span><b style="font-family:-apple-system,sans-serif">Sistema · Aa</b><br><small>La clásica de iPhone</small></span><span>✓</span></button>
         <button class="font-opt" data-font="serif"><span><b style="font-family:Georgia,serif">Serif · Aa</b><br><small>Elegante, tipo libro</small></span><span>✓</span></button>
         <button class="font-opt" data-font="mono"><span><b style="font-family:Menlo,monospace">Mono · Aa</b><br><small>Para números y cuentas claras</small></span><span>✓</span></button>
         <button class="font-opt" data-font="compact"><span><b style="font-family:'Helvetica Neue',sans-serif">Compacta · Aa</b><br><small>Más contenido en pantalla</small></span><span>✓</span></button>
       </div>
-      <div class="ios-row"><div><b>Tamaño de texto</b></div><div class="seg-mini" id="sizeSeg"><button data-size="s">S</button><button data-size="m">M</button><button data-size="l">L</button></div></div>
+      <div class="ios-row"><div><b>Tamaño de texto</b></div><div class="seg-mini" id="sizeSeg"><button data-size="s" class="">S</button><button data-size="m" class="on">M</button><button data-size="l" class="">L</button></div></div>
     </section>
 
     <section class="ios-group">
       <h3>💱 Tipo de moneda</h3>
       <div class="ios-row"><div><b>Moneda principal</b><small>Se aplica a totales y gráficos</small></div><select id="setCurrency"><option value="NIO">C$ Córdoba · NIO</option><option value="USD">US$ Dólar · USD</option><option value="EUR">€ Euro · EUR</option><option value="MXN">MX$ Peso Mexicano</option><option value="GTQ">Q Quetzal</option><option value="HNL">L Lempira</option><option value="CRC">₡ Colón</option><option value="DOP">RD$ Peso Dominicano</option></select></div>
-      <div class="ios-row"><div><b>Mostrar segunda moneda</b><small>Ej: si usas C$, muestra US$ al lado</small></div><label class="switch"><input type="checkbox" id="setSecond" checked><span></span></label></div>
-      <div class="ios-row"><div><b>Decimales</b></div><select id="setDecimals"><option value="0">0 decimales</option><option value="2" selected>2 decimales</option></select></div>
-      <p class="ios-note" id="currencyNote">Tu moneda principal es Córdoba (C$). El dólar se calcula con la tasa BCN que ya usas.</p>
+      <div class="ios-row"><div><b>Mostrar segunda moneda</b><small>Ej: si usas C$, muestra US$ al lado</small></div><label class="switch"><input type="checkbox" id="setSecond" checked=""><span></span></label></div>
+      <div class="ios-row"><div><b>Decimales</b></div><select id="setDecimals"><option value="0">0 decimales</option><option value="2" selected="">2 decimales</option></select></div>
+      <p class="ios-note" id="currencyNote">Tu moneda principal es Córdoba (C$). El dólar se calcula con la tasa BCN que ya usas. Segunda moneda: US$.</p>
     </section>
 
     <section class="ios-group">
       <h3>📝 Extras · Detalles</h3>
-      <div class="ios-row"><div><b>Mostrar comentarios en Historial</b></div><label class="switch"><input type="checkbox" id="setShowComments" checked><span></span></label></div>
-      <div class="ios-row"><div><b>Incluir detalles en exportación</b></div><label class="switch"><input type="checkbox" id="setIncExport" checked><span></span></label></div>
+      <div class="ios-row"><div><b>Mostrar comentarios en Historial</b></div><label class="switch"><input type="checkbox" id="setShowComments" checked=""><span></span></label></div>
+      <div class="ios-row"><div><b>Incluir detalles en exportación</b></div><label class="switch"><input type="checkbox" id="setIncExport" checked=""><span></span></label></div>
       <label style="display:block;margin:10px 0 4px;font-size:13px;color:var(--mute);font-weight:600">Comentarios rápidos (toca uno en el editor de extras)</label>
       <input id="quickInput" placeholder="Escribe un comentario rápido y pulsa Enter · Ej: Cierre de inventario" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);padding:0 12px;font:500 15px var(--body)">
-      <div class="chips" id="quickList"></div>
+      <div class="chips" id="quickList"><button type="button" class="chip-btn">Cierre de inventario  ×</button><button type="button" class="chip-btn">Horas extra  ×</button><button type="button" class="chip-btn">Viaje  ×</button><button type="button" class="chip-btn">Reunión  ×</button><button type="button" class="chip-btn">Entrega urgente  ×</button></div>
       <p class="ios-note">Estos botones aparecen en la casilla de Detalles de cada extra.</p>
     </section>
 
@@ -500,7 +560,7 @@ body.blurred main{filter:blur(14px)}
     <p class="ios-note" style="text-align:center">Viáticos Pro · v2.0 · Hecho para iOS · Tus datos viven solo en este teléfono.</p>
   </div>
 
-  <p class="foot">Las tarifas que cambies se aplican a este mes y a los siguientes; la unidad es la misma para todos los extras. Todo se guarda en este teléfono. Cada mes conserva la tasa del dólar de ese momento. Las extras de un mes se pagan el 15 del mes siguiente.</p>
+  <p class="foot">PRO v3 · Las tarifas de arriba solo son el monto sugerido para los NUEVOS registros. Cada viático y cada extra guarda su propio monto, así que cambiar la tarifa ya no recalcula lo que guardaste. Todo se guarda en este teléfono. Cada mes conserva la tasa del dólar de ese momento. Las extras de un mes se pagan el 15 del mes siguiente.</p>
 </main>
 
 <script>
@@ -511,6 +571,7 @@ body.blurred main{filter:blur(14px)}
   var KEY='viaticos_v1', OFICIAL=36.6243, S={rates:{},days:{}};
   try{var raw=localStorage.getItem(KEY);if(raw){var p=JSON.parse(raw);if(p&&p.rates&&p.days)S=p;}}catch(e){}
   if(!S.x)S.x={};
+  if(!S.v)S.v={}; // PRO v3: S.v[mes][dia] = {amt: monto propio, c: comentario} · cada viático por separado
   if(!S.unit)S.unit='hora';
   if(!S.fxm)S.fxm={};
   if(!S.fx||!(S.fx.r>0))S.fx={r:OFICIAL,src:'auto',chk:0,chg:0,hist:[]};
@@ -525,7 +586,7 @@ body.blurred main{filter:blur(14px)}
   function today(){var d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
   function mk(y,m){return y+'-'+String(m+1).padStart(2,'0')}
   function curKey(){var t=today();return mk(t.getFullYear(),t.getMonth())}
-  var T0=today(), Y=T0.getFullYear(), M=T0.getMonth(), HY=Y, view='m', mode='v', askClear=false, askTimer=null, editing=null, dm, dy;
+  var T0=today(), Y=T0.getFullYear(), M=T0.getMonth(), HY=Y, view='m', mode='v', askClear=false, askTimer=null, editing=null, editingV=null, dm, dy;
 
   /* ---------- tarifas por mes (heredan del mes anterior) ---------- */
   function ratesFor(k){
@@ -535,7 +596,47 @@ body.blurred main{filter:blur(14px)}
     return ks.length?S.rates[ks[0]]:{v:0,e:0};
   }
   function X(k,d){var o=S.x[k]&&S.x[k][d];if(!o)return {q:1,c:'',inc:true,priv:false}; if(o.inc===undefined)o.inc=true; if(o.priv===undefined)o.priv=false; return o}
-  function setX(k,d,o){if(o.inc===undefined)o.inc=true; if(o.priv===undefined)o.priv=false; (S.x[k]||(S.x[k]={}))[d]=o}
+  function setX(k,d,o){if(o.inc===undefined)o.inc=true; if(o.priv===undefined)o.priv=false; (S.x[k]||(S.x[k]={}))[d]=o; syncDayFlag(k,d)}
+  /* ---------- PRO v3 · viáticos por separado ---------- */
+  /* ANTES: S.days solo guardaba 'v' (sí/no) y el monto era días × UNA sola tarifa del mes.
+     Por eso 800 el día 3 + 600 el día 10 daban 2 × 600 = 1,200: el 800 se perdía.
+     AHORA: cada día guarda su propio monto en S.v. La suma es 800 + 600 = 1,400. */
+  function V(k,d){var o=S.v[k]&&S.v[k][d];if(!o)return null; if(o.amt===undefined||o.amt===null)o.amt=0; return o}
+  function setV(k,d,o){if(o.amt===undefined||o.amt===null)o.amt=0; if(o.c===undefined)o.c=''; (S.v[k]||(S.v[k]={}))[d]=o; syncDayFlag(k,d)}
+  function syncDayFlag(k,d){
+    var D=S.days[k]||(S.days[k]={}), f='';
+    if(S.v[k]&&S.v[k][d])f+='v';
+    if(S.x[k]&&S.x[k][d])f+='e';
+    if(f)D[d]=f; else delete D[d];
+  }
+  function extraAmt(o,R){var q=parseFloat(o.q)||0; var r=(o.r!==undefined&&o.r!==null&&o.r!=='')?parseFloat(o.r):R.e; return q*r}
+  function migrateV3(){
+    if(!S.v)S.v={};
+    // Migrar viáticos viejos: cada día con 'v' recibe como monto la tarifa que tenía ese mes.
+    Object.keys(S.days||{}).forEach(function(k){
+      var D=S.days[k]||{}, R=ratesFor(k);
+      Object.keys(D).forEach(function(dd){
+        var f=D[dd]||'';
+        if(f.indexOf('v')>-1 && !(S.v[k]&&S.v[k][dd])){
+          (S.v[k]||(S.v[k]={}))[dd]={amt:R.v||0,c:''};
+        }
+      });
+    });
+    // Migrar extras viejos: cada extra guarda su precio por unidad del momento, para que cambiar la tarifa no los recalculé.
+    Object.keys(S.x||{}).forEach(function(k){
+      var R=ratesFor(k);
+      Object.keys(S.x[k]||{}).forEach(function(dd){
+        var o=S.x[k][dd]; if(!o) return;
+        if(o.r===undefined||o.r===null||o.r==='')o.r=R.e||0;
+        syncDayFlag(k,parseInt(dd,10));
+      });
+    });
+    // Sincronizar flags de viáticos migrados
+    Object.keys(S.v||{}).forEach(function(k){
+      Object.keys(S.v[k]||{}).forEach(function(dd){ syncDayFlag(k,parseInt(dd,10)); });
+    });
+  }
+  migrateV3();
 
   /* ---------- formato ---------- */
   var CURS={NIO:{sym:'C$',name:'Córdoba',f:1},USD:{sym:'US$',name:'Dólar',f:'fx'},EUR:{sym:'€',name:'Euro',f:'eur'},MXN:{sym:'MX$',name:'Peso Mexicano',f:'mxn'},GTQ:{sym:'Q',name:'Quetzal',f:'gtq'},HNL:{sym:'L',name:'Lempira',f:'hnl'},CRC:{sym:'₡',name:'Colón',f:'crc'},DOP:{sym:'RD$',name:'Peso Dominicano',f:'dop'}};
@@ -563,15 +664,22 @@ body.blurred main{filter:blur(14px)}
 
   /* ---------- cálculo de un mes ---------- */
   function calcMonth(y,m){
-    var k=mk(y,m), dim=new Date(y,m+1,0).getDate(), D=S.days[k]||{}, R=ratesFor(k), v1=0, v2=0, exq=0, exd=0, list=[], flags={};
+    var k=mk(y,m), dim=new Date(y,m+1,0).getDate(), R=ratesFor(k), v1=0, v2=0, a1=0, a2=0, exq=0, exd=0, ae=0, list=[], vlist=[], flags={};
     for(var d=1;d<=dim;d++){
-      var f=D[d]||'', hv=f.indexOf('v')>-1, he=f.indexOf('e')>-1, q=0;
-      if(hv){if(d<=10)v1++;else v2++}
-      if(he){var o=X(k,d);q=o.q;exq+=q;exd++;list.push({d:d,q:q,c:o.c})}
-      flags[d]={v:hv,e:he,q:q};
+      var hv=!!(S.v[k]&&S.v[k][d]), he=!!(S.x[k]&&S.x[k][d]), q=0, vamt=0, eamt=0;
+      if(hv){
+        var vo=V(k,d); vamt=parseFloat(vo.amt)||0;
+        if(d<=10){v1++;a1+=vamt}else{v2++;a2+=vamt}
+        vlist.push({d:d,amt:vamt,c:vo.c||'',inc:true,priv:false});
+      }
+      if(he){
+        var o=X(k,d); q=parseFloat(o.q)||0; eamt=extraAmt(o,R);
+        exq+=q; exd++; ae+=eamt;
+        list.push({d:d,q:q,c:o.c,inc:o.inc,priv:o.priv,r:(o.r!==undefined?o.r:R.e),amt:eamt});
+      }
+      flags[d]={v:hv,e:he,q:q,vamt:vamt,eamt:eamt};
     }
-    var a1=v1*R.v, a2=v2*R.v, ae=exq*R.e;
-    return {k:k,y:y,m:m,dim:dim,R:R,v1:v1,v2:v2,exq:exq,exd:exd,list:list,flags:flags,a1:a1,a2:a2,av:a1+a2,ae:ae,total:a1+a2+ae};
+    return {k:k,y:y,m:m,dim:dim,R:R,v1:v1,v2:v2,exq:exq,exd:exd,list:list,vlist:vlist,flags:flags,a1:a1,a2:a2,av:a1+a2,ae:ae,total:a1+a2+ae};
   }
 
   /* las extras de un mes se pagan el 15 del mes siguiente */
@@ -699,8 +807,8 @@ body.blurred main{filter:blur(14px)}
     for(i=0;i<off;i++)h+='<span></span>';
     for(var d=1;d<=c.dim;d++){
       var fl=c.flags[d], hv=fl.v, he=fl.e, q=fl.q;
-      var cls='day'+(hv&&he?' ve':hv?' v':he?' e':'')+(isNow&&d===t.getDate()?' now':'')+(editing===d?' sel':'')+(d===15?' pay':'');
-      var lbl=d+' de '+MES[M]+(d===15?', día de pago de extras':'')+(hv||he?': '+(hv?'viático':'')+(hv&&he?' y ':'')+(he?'extra, '+qty(q)+' '+unitTxt(q):''):'');
+      var cls='day'+(hv&&he?' ve':hv?' v':he?' e':'')+(isNow&&d===t.getDate()?' now':'')+((editing===d||editingV===d)?' sel':'')+(d===15?' pay':'');
+      var lbl=d+' de '+MES[M]+(d===15?', día de pago de extras':'')+(hv||he?': '+(hv?'viático '+money(fl.vamt):'')+(hv&&he?' y ':'')+(he?'extra, '+qty(q)+' '+unitTxt(q):''):'');
       h+='<button class="'+cls+'" data-d="'+d+'" aria-label="'+lbl+'">'+d+(hv?'<i class="iv">V</i>':'')+(he?'<i class="ie">E'+(q!==1?qty(q):'')+'</i>':'')+'</button>';
     }
     $('#grid').innerHTML=h;
@@ -725,25 +833,38 @@ body.blurred main{filter:blur(14px)}
     $('#pay').innerHTML='<h2>Pago de extras · cada 15</h2><p class="note">Las extras de un mes se pagan el 15 del mes siguiente.</p>'+TH+prow(cp,ip)+prow(c,ic);
 
     $('#sum').innerHTML='<h2>Resumen del mes</h2>'+TH+
-      row('v','Viáticos 1–10',plural(c.v1,'día','días')+' × '+money(R.v),c.a1)+
-      row('v','Viáticos 11–'+c.dim,plural(c.v2,'día','días')+' × '+money(R.v),c.a2)+
-      row('e','Extras del mes',qty(c.exq)+' '+unitTxt(c.exq)+' en '+plural(c.exd,'día','días')+' × '+money(R.e),c.ae)+
+      row('v','Viáticos 1–10',plural(c.v1,'día','días')+' · cada uno con su propio monto',c.a1)+
+      row('v','Viáticos 11–'+c.dim,plural(c.v2,'día','días')+' · cada uno con su propio monto',c.a2)+
+      row('e','Extras del mes',qty(c.exq)+' '+unitTxt(c.exq)+' en '+plural(c.exd,'día','días')+' · cada extra con su propio precio',c.ae)+
       row('tot','Total del mes','',c.total);
 
+    /* PRO v3 · Detalle de viáticos: UNA FILA POR VIÁTICO, con su monto y botón Editar */
+    var vl=$('#vl');
+    if(c.vlist.length){
+      var vh='<h2>Detalle de viáticos · cada uno por separado</h2><p class="note">Cada fila se suma tal cual. Ejemplo: día 3 C$ 800 + día 10 C$ 600 = C$ 1,400. Si te equivocaste, toca ✏️ Editar.</p>'+TH;
+      c.vlist.forEach(function(it){
+        var tag = it.c ? '<div class="d">📝 '+esc(it.c)+'</div>' : '<div class="d">Sin comentario</div>';
+        vh+='<div class="drow v"><div class="l"><div class="t">Día '+it.d+' · Viático</div>'+tag+'</div><div class="m">'+num(it.amt)+'</div><div class="u">'+usd(it.amt,k)+'</div><button type="button" class="edit-btn" data-edit-v="'+it.d+'" aria-label="Editar viático del día '+it.d+'">✏️ Editar</button></div>';
+      });
+      vh+='<div class="drow v"><div class="l"><div class="t">Total viáticos</div></div><div class="m">'+num(c.av)+'</div><div class="u">'+usd(c.av,k)+'</div><span style="width:92px"></span></div>';
+      vl.innerHTML=vh;vl.hidden=false;
+    }else{vl.hidden=true;vl.innerHTML=''}
     var xl=$('#xl');
     if(c.list.length){
-      var xh='<h2>Detalle de extras</h2><p class="note">Toca un día en Extra para editar su comentario. Los detalles marcados con 📝 se incluyen en Excel.</p>'+TH;
+      var xh='<h2>Detalle de extras</h2><p class="note">Cada extra guarda su propio precio. Si te equivocaste en cantidad o precio, toca ✏️ Editar. Los detalles marcados con 📝 se incluyen en Excel.</p>'+TH;
       c.list.forEach(function(it){
         var showC = S.settings.showComments && it.c;
         var tag = '';
         if(showC){ tag = '<div class="d">'+(it.priv?'🔒 Privado · ':'📝 ')+esc(it.c)+'</div>'; if(!it.inc) tag+='<span class="comment-tag">No se exporta</span>'; }
         else if(it.priv){ tag='<div class="d">🔒 Detalle privado</div>'; }
-        xh+='<div class="row e s"><div class="l"><div class="t">Día '+it.d+': '+qty(it.q)+' '+unitTxt(it.q)+'</div>'+tag+'</div><div class="m">'+num(it.q*R.e)+'</div><div class="u">'+usd(it.q*R.e,k)+'</div></div>';
+        tag += '<div class="d">'+qty(it.q)+' × '+money(it.r)+' = '+money(it.amt)+'</div>';
+        xh+='<div class="drow e"><div class="l"><div class="t">Día '+it.d+': '+qty(it.q)+' '+unitTxt(it.q)+'</div>'+tag+'</div><div class="m">'+num(it.amt)+'</div><div class="u">'+usd(it.amt,k)+'</div><button type="button" class="edit-btn" data-edit-e="'+it.d+'" aria-label="Editar extra del día '+it.d+'">✏️ Editar</button></div>';
       });
       xl.innerHTML=xh;xl.hidden=false;
     }else{xl.hidden=true;xl.innerHTML=''}
 
     $('#ed').hidden=(editing===null);
+    $('#vd').hidden=(editingV===null);
     $('#eql').textContent='Cantidad ('+unitTxt(2)+')';
 
     var cb=$('#clear');
@@ -799,7 +920,7 @@ body.blurred main{filter:blur(14px)}
   $('#hnext').onclick=function(){HY++;renderHis()};
   $('#hlist').addEventListener('click',function(ev){
     var r=ev.target.closest('.hrow');if(!r)return;
-    Y=HY;M=parseInt(r.getAttribute('data-m'),10);askClear=false;editing=null;
+    Y=HY;M=parseInt(r.getAttribute('data-m'),10);askClear=false;editing=null;editingV=null;
     setView('m');
     try{window.scrollTo(0,0)}catch(e){}
   });
@@ -832,30 +953,60 @@ body.blurred main{filter:blur(14px)}
   });
 
   /* ---------- eventos del mes ---------- */
+  function updEVerify(){
+    if(editing===null)return;
+    var k=mk(Y,M), o=X(k,editing), R=ratesFor(k), amt=extraAmt(o,R), c=calcMonth(Y,M);
+    var ev=$('#eVerify'); if(ev)ev.textContent='✔ Esta extra: '+qty(o.q)+' × '+money(o.r!==undefined?o.r:R.e)+' = '+money(amt)+' · Total extras del mes: '+money(c.ae)+' · Total mes: '+money(c.total);
+  }
+  function updVVerify(){
+    if(editingV===null)return;
+    var k=mk(Y,M), o=V(k,editingV)||{amt:0,c:''}, c=calcMonth(Y,M);
+    var vv=$('#vVerify'); if(vv)vv.textContent='✔ Este viático: '+money(o.amt)+' · Total viáticos del mes: '+money(c.av)+' · Total mes: '+money(c.total);
+    var dm2=$('#vDemo'); if(dm2){
+      var parts=c.vlist.map(function(it){return 'Día '+it.d+' = '+money(it.amt)}).join(' + ');
+      dm2.innerHTML='<b>Así se suma (por separado, sin multiplicar por una tarifa):</b><br>'+(parts||'Sin viáticos todavía')+' = <b>'+money(c.av)+'</b>';
+    }
+  }
   function openEd(d){
-    var o=X(mk(Y,M),d);
-    editing=d;
+    var k=mk(Y,M), o=X(k,d), R=ratesFor(k);
+    if(o.r===undefined||o.r===null||o.r===''){ o.r=R.e||0; setX(k,d,{q:o.q,c:o.c,inc:o.inc,priv:o.priv,r:o.r}); }
+    editing=d; editingV=null;
     $('#edt').textContent='Extra del '+d+' de '+MES[M];
     $('#eq').value=o.q;
+    $('#er').value=(o.r!==undefined?o.r:R.e);
     $('#ec').value=o.c||'';
     $('#ecInc').checked=o.inc!==false;
     $('#ecPriv').checked=!!o.priv;
     $('#ecCount').textContent=(o.c||'').length+' / 200';
     renderChips();
     renderMes();
+    updEVerify();
     var el=$('#ed');
+    try{el.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(e){}
+  }
+  function openVd(d){
+    var k=mk(Y,M), o=V(k,d), R=ratesFor(k);
+    if(!o){ o={amt:R.v||0,c:''}; setV(k,d,o); }
+    editingV=d; editing=null;
+    $('#vdt').textContent='Viático del '+d+' de '+MES[M]+' · solo este día';
+    $('#va').value=o.amt;
+    $('#vc').value=o.c||'';
+    $('#vcCount').textContent=(o.c||'').length+' / 200';
+    renderMes();
+    updVVerify();
+    var el=$('#vd');
     try{el.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(e){}
   }
 
   function setMonth(delta){
     M+=delta;
     if(M<0){M=11;Y--}else if(M>11){M=0;Y++}
-    askClear=false;editing=null;syncRates();renderMes();
+    askClear=false;editing=null;editingV=null;syncRates();renderMes();
   }
 
   $('#prev').onclick=function(){setMonth(-1)};
   $('#next').onclick=function(){setMonth(1)};
-  $('#today').onclick=function(){var t=today();Y=t.getFullYear();M=t.getMonth();askClear=false;editing=null;syncRates();renderMes()};
+  $('#today').onclick=function(){var t=today();Y=t.getFullYear();M=t.getMonth();askClear=false;editing=null;editingV=null;syncRates();renderMes()};
 
   function setMode(m){
     mode=m;
@@ -867,15 +1018,25 @@ body.blurred main{filter:blur(14px)}
 
   $('#grid').addEventListener('click',function(ev){
     var b=ev.target.closest('.day');if(!b)return;
-    var d=parseInt(b.getAttribute('data-d'),10), k=mk(Y,M);
-    var D=S.days[k]||(S.days[k]={}), f=D[d]||'';
+    var d=parseInt(b.getAttribute('data-d'),10), k=mk(Y,M), R=ratesFor(k);
     if(mode==='e'){
-      if(f.indexOf('e')<0){D[d]=f+'e';setX(k,d,{q:1,c:''});save()}
+      if(!(S.x[k]&&S.x[k][d])){ setX(k,d,{q:1,c:'',r:R.e||0}); save(); }
       openEd(d);return;
     }
-    f=f.indexOf('v')>-1?f.replace('v',''):f+'v';
-    if(f)D[d]=f;else delete D[d];
-    save();renderMes();
+    // PRO v3 · Viático: nunca es solo marcar/desmarcar. Siempre abre el editor con SU monto.
+    if(!(S.v[k]&&S.v[k][d])){ setV(k,d,{amt:R.v||0,c:''}); save(); }
+    openVd(d);
+  });
+  /* PRO v3 · Botones Editar en los detalles (viáticos y extras) */
+  $('#vl').addEventListener('click',function(ev){
+    var btn=ev.target.closest('[data-edit-v]'); if(!btn)return;
+    var d=parseInt(btn.getAttribute('data-edit-v'),10);
+    setMode('v'); openVd(d);
+  });
+  $('#xl').addEventListener('click',function(ev){
+    var btn=ev.target.closest('[data-edit-e]'); if(!btn)return;
+    var d=parseInt(btn.getAttribute('data-edit-e'),10);
+    setMode('e'); openEd(d);
   });
 
   function onRate(){
@@ -888,21 +1049,42 @@ body.blurred main{filter:blur(14px)}
 
   $('#eq').addEventListener('input',function(){
     if(editing===null)return;var k=mk(Y,M),o=X(k,editing);
-    setX(k,editing,{q:Math.max(0,parseFloat($('#eq').value)||0),c:o.c,inc:o.inc,priv:o.priv});save();renderMes();
+    setX(k,editing,{q:Math.max(0,parseFloat($('#eq').value)||0),c:o.c,inc:o.inc,priv:o.priv,r:o.r});save();renderMes();updEVerify();
+  });
+  $('#er').addEventListener('input',function(){
+    if(editing===null)return;var k=mk(Y,M),o=X(k,editing);
+    setX(k,editing,{q:o.q,c:o.c,inc:o.inc,priv:o.priv,r:Math.max(0,parseFloat($('#er').value)||0)});save();renderMes();updEVerify();
   });
   $('#ec').addEventListener('input',function(){
     if(editing===null)return;var k=mk(Y,M),o=X(k,editing);
     $('#ecCount').textContent=$('#ec').value.length+' / 200';
-    setX(k,editing,{q:o.q,c:$('#ec').value,inc:o.inc,priv:o.priv});save();renderMes();
+    setX(k,editing,{q:o.q,c:$('#ec').value,inc:o.inc,priv:o.priv,r:o.r});save();renderMes();updEVerify();
   });
-  $('#ecInc').addEventListener('change',function(){if(editing===null)return;var k=mk(Y,M),o=X(k,editing);setX(k,editing,{q:o.q,c:o.c,inc:$('#ecInc').checked,priv:o.priv});save();renderMes();});
-  $('#ecPriv').addEventListener('change',function(){if(editing===null)return;var k=mk(Y,M),o=X(k,editing);setX(k,editing,{q:o.q,c:o.c,inc:o.inc,priv:$('#ecPriv').checked});save();renderMes();});
-  $('#eok').onclick=function(){editing=null;renderMes()};
+  $('#ecInc').addEventListener('change',function(){if(editing===null)return;var k=mk(Y,M),o=X(k,editing);setX(k,editing,{q:o.q,c:o.c,inc:$('#ecInc').checked,priv:o.priv,r:o.r});save();renderMes();updEVerify();});
+  $('#ecPriv').addEventListener('change',function(){if(editing===null)return;var k=mk(Y,M),o=X(k,editing);setX(k,editing,{q:o.q,c:o.c,inc:o.inc,priv:$('#ecPriv').checked,r:o.r});save();renderMes();updEVerify();});
+  $('#eok').onclick=function(){editing=null;renderMes();toast('Extra guardada ✓')};
   $('#erm').onclick=function(){
-    if(editing===null)return;var k=mk(Y,M),D=S.days[k]||{},f=D[editing]||'';
-    f=f.replace('e','');if(f)D[editing]=f;else delete D[editing];
+    if(editing===null)return;var k=mk(Y,M);
     if(S.x[k])delete S.x[k][editing];
-    editing=null;save();renderMes();
+    syncDayFlag(k,editing);
+    editing=null;save();renderMes();toast('Extra eliminada');
+  };
+  /* PRO v3 · Editor de viático: monto propio + comentario + quitar */
+  $('#va').addEventListener('input',function(){
+    if(editingV===null)return;var k=mk(Y,M),o=V(k,editingV)||{amt:0,c:''};
+    setV(k,editingV,{amt:Math.max(0,parseFloat($('#va').value)||0),c:o.c});save();renderMes();updVVerify();
+  });
+  $('#vc').addEventListener('input',function(){
+    if(editingV===null)return;var k=mk(Y,M),o=V(k,editingV)||{amt:0,c:''};
+    $('#vcCount').textContent=$('#vc').value.length+' / 200';
+    setV(k,editingV,{amt:o.amt,c:$('#vc').value});save();renderMes();updVVerify();
+  });
+  $('#vok').onclick=function(){editingV=null;renderMes();toast('Viático guardado ✓')};
+  $('#vrm').onclick=function(){
+    if(editingV===null)return;var k=mk(Y,M);
+    if(S.v[k])delete S.v[k][editingV];
+    syncDayFlag(k,editingV);
+    editingV=null;save();renderMes();toast('Viático eliminado');
   };
 
   $('#clear').onclick=function(){
@@ -911,8 +1093,8 @@ body.blurred main{filter:blur(14px)}
       askClear=true;renderMes();
       clearTimeout(askTimer);askTimer=setTimeout(function(){askClear=false;renderMes()},3000);
     }else{
-      clearTimeout(askTimer);askClear=false;editing=null;
-      delete S.days[k];delete S.x[k];save();renderMes();
+      clearTimeout(askTimer);askClear=false;editing=null;editingV=null;
+      delete S.days[k];delete S.x[k];delete S.v[k];save();renderMes();
     }
   };
 
@@ -996,6 +1178,8 @@ body.blurred main{filter:blur(14px)}
     var sum=[['Mes','Año','Días viático','Monto viáticos (NIO)','Cantidad extras','Monto extras (NIO)','Total (NIO)','Total (USD aprox)','Tasa usada','Moneda principal']];
     var det=[['Fecha','Año','Mes','Día','Tipo','Cantidad','Unidad','Comentario / Detalles','Incluir en exportación','Privado','Monto (NIO)','Monto (USD aprox)']];
     var years={};Object.keys(S.days).forEach(function(k){years[parseInt(k.split('-')[0],10)]=1});
+    Object.keys(S.v||{}).forEach(function(k){years[parseInt(k.split('-')[0],10)]=1});
+    Object.keys(S.x||{}).forEach(function(k){years[parseInt(k.split('-')[0],10)]=1});
     Object.keys(S.rates).forEach(function(k){years[parseInt(k.split('-')[0],10)]=1});
     var ylist=Object.keys(years).sort();
     if(!ylist.length)ylist=[new Date().getFullYear()];
@@ -1006,10 +1190,12 @@ body.blurred main{filter:blur(14px)}
         sum.push([MES[m],parseInt(y,10),c.v1+c.v2,Math.round(c.av*100)/100,c.exq,Math.round(c.ae*100)/100,Math.round(c.total*100)/100,Math.round(c.total/rate*100)/100,rate,S.settings.currency]);
         c.list.forEach(function(it){
           var include = S.settings.incExport!==false && it.inc!==false;
-          det.push([y+'-'+String(m+1).padStart(2,'0')+'-'+String(it.d).padStart(2,'0'),parseInt(y,10),MES[m],it.d,'Extra',it.q,S.unit,include?(it.c||''): '(no incluido)', include?'Sí':'No', it.priv?'Sí':'No', Math.round(it.q*c.R.e*100)/100, Math.round(it.q*c.R.e/rate*100)/100]);
+          det.push([y+'-'+String(m+1).padStart(2,'0')+'-'+String(it.d).padStart(2,'0'),parseInt(y,10),MES[m],it.d,'Extra',it.q,S.unit,include?(it.c||''): '(no incluido)', include?'Sí':'No', it.priv?'Sí':'No', Math.round(it.amt*100)/100, Math.round(it.amt/rate*100)/100]);
         });
-        // viáticos como filas también
-        if(c.v1+c.v2>0){det.push([y+'-'+String(m+1).padStart(2,'0')+'-01',parseInt(y,10),MES[m],1,'Viático',c.v1+c.v2,'día','', 'Sí','No', Math.round(c.av*100)/100, Math.round(c.av/rate*100)/100]);}
+        // PRO v3 · Viáticos en Excel: UNA FILA POR VIÁTICO, con su monto real (no el total agrupado en día 1)
+        c.vlist.forEach(function(it){
+          det.push([y+'-'+String(m+1).padStart(2,'0')+'-'+String(it.d).padStart(2,'0'),parseInt(y,10),MES[m],it.d,'Viático',1,'día',it.c||'', 'Sí','No', Math.round(it.amt*100)/100, Math.round(it.amt/rate*100)/100]);
+        });
       }
     });
     return {sum:sum,det:det};
@@ -1029,7 +1215,7 @@ body.blurred main{filter:blur(14px)}
     files.push({name:'xl/_rels/workbook.xml.rels',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet3.xml"/></Relationships>'});
     files.push({name:'xl/worksheets/sheet1.xml',data:sheetXml(d.sum)});
     files.push({name:'xl/worksheets/sheet2.xml',data:sheetXml(d.det)});
-    var adj=[['Ajuste','Valor'],['Moneda principal',S.settings.currency+' '+curInfo().sym],['Tema',S.settings.theme],['Color',S.settings.accent],['Fuente',S.settings.font],['Unidad extras',S.unit],['Exportado el',new Date().toLocaleString('es')],['App','Viáticos Pro v2.0 iOS']];
+    var adj=[['Ajuste','Valor'],['Moneda principal',S.settings.currency+' '+curInfo().sym],['Tema',S.settings.theme],['Color',S.settings.accent],['Fuente',S.settings.font],['Unidad extras',S.unit],['Exportado el',new Date().toLocaleString('es')],['App','Viáticos Pro v3.0 · Cada viático por separado']];
     files.push({name:'xl/worksheets/sheet3.xml',data:sheetXml(adj)});
     // ZIP stored (sin compresión) - compatible con Excel / Numbers
     var enc=new TextEncoder();var parts=[];var central=[];var offset=0;
@@ -1049,7 +1235,7 @@ body.blurred main{filter:blur(14px)}
   }
   function fileNameBase(){var d=new Date();return 'viaticos-'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
   function exportExcel(){try{var b=buildXLSX();downloadBlob(b,fileNameBase()+'.xlsx');toast('Excel exportado ✓ Abre en Numbers, Excel o Sheets');var es=$('#expStatus');if(es)es.textContent='Excel exportado el '+new Date().toLocaleString('es')+'. Puedes guardarlo en iCloud o Drive.'}catch(e){toast('No se pudo crear Excel. Intenta con CSV.');exportCSV()}}
-  function exportCSV(){try{var d=buildExportRows();var csv=rowsToCSV(d.sum)+'\r\n\r\nDETALLE EXTRAS\r\n'+rowsToCSV(d.det);downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),fileNameBase()+'.csv');toast('CSV exportado ✓')}catch(e){toast('Error al exportar CSV')}}
+  function exportCSV(){try{var d=buildExportRows();var csv=rowsToCSV(d.sum)+'\r\n\r\nDETALLE VIÁTICOS Y EXTRAS\r\n'+rowsToCSV(d.det);downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),fileNameBase()+'.csv');toast('CSV exportado ✓')}catch(e){toast('Error al exportar CSV')}}
   function shareFile(){
     try{
       var b=buildXLSX();var file=new File([b],fileNameBase()+'.xlsx',{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
@@ -1138,5 +1324,6 @@ body.blurred main{filter:blur(14px)}
   }catch(e){}
 })();
 </script>
-</body>
-</html>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script>
+
+</body></html>
