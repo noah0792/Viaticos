@@ -22,8 +22,8 @@
 </style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Viáticos Pro v3.2 • Hora extra C$112 editable · Cada viático por separado</title>
-<meta name="version" content="pro-v3.2-2026-11-15-hora-extra-112-editable">
+<title>Viáticos Pro v3.3 • Extras enteros · Guardar · Hora extra C$112 editable</title>
+<meta name="version" content="pro-v3.3-2026-11-15-extras-enteros-guardar-112-editable">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -126,6 +126,7 @@ body{overscroll-behavior-y:none}
 .ed label{display:block;margin-top:10px;font-size:13px;color:var(--mute);font-weight:500}
 .ed input{display:block;width:100%;min-height:46px;margin-top:4px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:500 16px var(--body);padding:0 12px}
 .ed .btns{display:flex;gap:8px;margin-top:14px}
+  .guardar-extra{font-size:17px !important;padding:13px 18px !important;min-width:140px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
 .ed .btns button{flex:1;min-height:46px;border-radius:12px;font-weight:600;border:1px solid var(--line);background:none}
 .ed .btns .ok{background:var(--e);color:var(--on);border-color:var(--e)}
 
@@ -332,7 +333,7 @@ body.blurred main{filter:blur(14px)}
 </style>
 </head>
 <body>
-<div id="proBanner" style="position:sticky;top:0;z-index:9998;background:#0E7C6B;color:#fff;padding:10px 14px;font:700 13px system-ui;text-align:center;border-radius:0 0 14px 14px">✅ PRO v3.2 · Hora extra C$ 112 editable · Si ves este banner, YA tienes la corrección<button id="forceUpdate" style="margin-left:8px;background:#fff;color:#0E7C6B;border:0;padding:4px 10px;border-radius:99px;font-weight:800">Forzar actualización</button></div>
+<div id="proBanner" style="position:sticky;top:0;z-index:9998;background:#0E7C6B;color:#fff;padding:10px 14px;font:700 13px system-ui;text-align:center;border-radius:0 0 14px 14px">✅ PRO v3.3 · Extras en enteros · Botón Guardar · Hora extra C$ 112 editable · Si ves este banner, YA tienes la corrección<button id="forceUpdate" style="margin-left:8px;background:#fff;color:#0E7C6B;border:0;padding:4px 10px;border-radius:99px;font-weight:800">Forzar actualización</button></div>
 <div id="lockScreen" class="lock" hidden="">
   <div class="lock-card">
     <div class="lock-avatar">💰</div>
@@ -353,7 +354,7 @@ body.blurred main{filter:blur(14px)}
 <div id="exportSheet" class="sheet-backdrop" hidden=""><div class="sheet"><h3 id="sheetTitle">Guardar en iCloud / Drive</h3><p id="sheetBody"></p><div class="sheet-btns"><button id="sheetClose">Entendido</button><button id="sheetAction">Abrir</button></div></div></div>
 <div id="toast" class="toast" hidden=""></div>
 <main>
-  <div class="ios-topbar"><div class="ios-title"><span class="ios-hello">Viáticos</span><span class="ios-sub">PRO v3.2 · Hora extra C$ 112 editable</span></div><button id="lockNow" class="ios-lock" aria-label="Bloquear app" title="Bloquear">🔒</button></div>
+  <div class="ios-topbar"><div class="ios-title"><span class="ios-hello">Viáticos</span><span class="ios-sub">PRO v3.3 · Extras enteros · Guardar</span></div><button id="lockNow" class="ios-lock" aria-label="Bloquear app" title="Bloquear">🔒</button></div>
   <div class="seg tabs ios-seg" role="tablist" aria-label="Vista">
     <button id="tm" class="on" role="tab" aria-selected="true">Mes</button>
     <button id="th" role="tab" aria-selected="false">Historial</button>
@@ -370,9 +371,9 @@ body.blurred main{filter:blur(14px)}
 
     <section class="total" aria-live="polite">
       <p class="lbl">Total del mes (viáticos + extras)</p>
-      <p class="big" id="total">C$ 0.00</p>
-      <p class="usd" id="totusd">≈ US$ 0.00 · tasa 36.6243</p>
-      <p class="sub" id="totsub">0 días de viático y 0 horas de extra</p>
+      <p class="big" id="total">C$ 224.00</p>
+      <p class="usd" id="totusd">≈ US$ 6.12 · tasa 36.6243</p>
+      <p class="sub" id="totsub">0 días de viático y 2 horas de extra</p>
     </section>
 
     <section class="fx">
@@ -385,18 +386,18 @@ body.blurred main{filter:blur(14px)}
       <label>Viático por día · para NUEVOS<span class="f"><b>C$</b><input id="rv" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00"></span></label>
       <label>Hora extra · valor actual (editable)<span class="f"><b>C$</b><input id="re" type="number" inputmode="decimal" min="0" step="0.01" placeholder="112" value="112"></span></label>
       <label class="w">Unidad del extra (hora, día, turno…)<span class="f"><input id="ru" type="text" placeholder="hora" maxlength="20"></span></label>
-      <p class="fix-note"><b>⚠️ CORREGIDO:</b> Cada viático guarda <b>su propio monto</b>. Ejemplo: día 3 = C$ 800 + día 10 = C$ 600 = <b>C$ 1,400</b>.<br><b>Hora extra = C$ 112 por defecto:</b> 1 hora = 112, 2 horas = 224. <b>✏️ El valor SÍ se puede editar:</b> si algún día cambia, toca <b>✏️ Editar valor</b> abajo o cambia el campo de arriba. Solo las <b>nuevas</b> extras usarán el nuevo valor, las viejas quedan con 112.</p>
+      <p class="fix-note"><b>⚠️ CORREGIDO:</b> Cada viático guarda <b>su propio monto</b>. Ejemplo: día 3 = C$ 800 + día 10 = C$ 600 = <b>C$ 1,400</b>.<br><b>Hora extra = C$ 112 por defecto:</b> 1 extra = 112, 2 extras = 224. <b>✏️ El valor SÍ se puede editar:</b> toca <b>✏️ Editar valor</b>. Solo las <b>nuevas</b> extras usarán el nuevo valor.</p>
       <button type="button" class="edit-btn" id="editReBtn" style="grid-column:1/-1;justify-self:start">✏️ Editar valor de la hora extra</button>
     </section>
 
     <div class="seg" role="group" aria-label="Qué vas a marcar">
-      <button id="mv" class="on v" aria-pressed="true">Viático</button>
-      <button id="me" class="e" aria-pressed="false">Extra</button>
+      <button id="mv" class="v" aria-pressed="false">Viático</button>
+      <button id="me" class="on e" aria-pressed="true">Extra</button>
     </div>
-    <p class="hint">Toca un día: en <b>Viático</b> pones <b>el monto exacto de ese día</b> (800, 600, lo que sea). En <b>Extra</b> pones cantidad y precio. Si te equivocaste, toca <b>✏️ Editar</b> en el detalle de abajo, ahí también puedes cambiar el valor de esa extra. El punto en el día 15 marca el pago de extras.</p>
+    <p class="hint">Toca un día: en <b>Viático</b> pones <b>el monto exacto de ese día</b> (800, 600, lo que sea). En <b>Extra</b> metes las unidades en la casilla <b>Extras</b> (solo enteros: 1, 2, 3) y al terminar te sale <b>Guardar</b>. Si te equivocaste, toca <b>✏️ Editar</b> en el detalle de abajo.</p>
 
     <div class="wd" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
-    <div class="grid" id="grid"><span></span><span></span><span></span><span></span><span></span><span></span><button class="day" data-d="1" aria-label="1 de noviembre">1</button><button class="day" data-d="2" aria-label="2 de noviembre">2</button><button class="day" data-d="3" aria-label="3 de noviembre">3</button><button class="day" data-d="4" aria-label="4 de noviembre">4</button><button class="day" data-d="5" aria-label="5 de noviembre">5</button><button class="day" data-d="6" aria-label="6 de noviembre">6</button><button class="day" data-d="7" aria-label="7 de noviembre">7</button><button class="day" data-d="8" aria-label="8 de noviembre">8</button><button class="day" data-d="9" aria-label="9 de noviembre">9</button><button class="day" data-d="10" aria-label="10 de noviembre">10</button><button class="day" data-d="11" aria-label="11 de noviembre">11</button><button class="day" data-d="12" aria-label="12 de noviembre">12</button><button class="day" data-d="13" aria-label="13 de noviembre">13</button><button class="day" data-d="14" aria-label="14 de noviembre">14</button><button class="day now pay" data-d="15" aria-label="15 de noviembre, día de pago de extras">15</button><button class="day" data-d="16" aria-label="16 de noviembre">16</button><button class="day" data-d="17" aria-label="17 de noviembre">17</button><button class="day" data-d="18" aria-label="18 de noviembre">18</button><button class="day" data-d="19" aria-label="19 de noviembre">19</button><button class="day" data-d="20" aria-label="20 de noviembre">20</button><button class="day" data-d="21" aria-label="21 de noviembre">21</button><button class="day" data-d="22" aria-label="22 de noviembre">22</button><button class="day" data-d="23" aria-label="23 de noviembre">23</button><button class="day" data-d="24" aria-label="24 de noviembre">24</button><button class="day" data-d="25" aria-label="25 de noviembre">25</button><button class="day" data-d="26" aria-label="26 de noviembre">26</button><button class="day" data-d="27" aria-label="27 de noviembre">27</button><button class="day" data-d="28" aria-label="28 de noviembre">28</button><button class="day" data-d="29" aria-label="29 de noviembre">29</button><button class="day" data-d="30" aria-label="30 de noviembre">30</button></div>
+    <div class="grid" id="grid"><span></span><span></span><span></span><span></span><span></span><span></span><button class="day" data-d="1" aria-label="1 de noviembre">1</button><button class="day" data-d="2" aria-label="2 de noviembre">2</button><button class="day" data-d="3" aria-label="3 de noviembre">3</button><button class="day" data-d="4" aria-label="4 de noviembre">4</button><button class="day" data-d="5" aria-label="5 de noviembre">5</button><button class="day" data-d="6" aria-label="6 de noviembre">6</button><button class="day" data-d="7" aria-label="7 de noviembre">7</button><button class="day" data-d="8" aria-label="8 de noviembre">8</button><button class="day" data-d="9" aria-label="9 de noviembre">9</button><button class="day" data-d="10" aria-label="10 de noviembre">10</button><button class="day" data-d="11" aria-label="11 de noviembre">11</button><button class="day" data-d="12" aria-label="12 de noviembre">12</button><button class="day" data-d="13" aria-label="13 de noviembre">13</button><button class="day" data-d="14" aria-label="14 de noviembre">14</button><button class="day e now sel pay" data-d="15" aria-label="15 de noviembre, día de pago de extras: extra, 2 horas">15<i class="ie">E2</i></button><button class="day" data-d="16" aria-label="16 de noviembre">16</button><button class="day" data-d="17" aria-label="17 de noviembre">17</button><button class="day" data-d="18" aria-label="18 de noviembre">18</button><button class="day" data-d="19" aria-label="19 de noviembre">19</button><button class="day" data-d="20" aria-label="20 de noviembre">20</button><button class="day" data-d="21" aria-label="21 de noviembre">21</button><button class="day" data-d="22" aria-label="22 de noviembre">22</button><button class="day" data-d="23" aria-label="23 de noviembre">23</button><button class="day" data-d="24" aria-label="24 de noviembre">24</button><button class="day" data-d="25" aria-label="25 de noviembre">25</button><button class="day" data-d="26" aria-label="26 de noviembre">26</button><button class="day" data-d="27" aria-label="27 de noviembre">27</button><button class="day" data-d="28" aria-label="28 de noviembre">28</button><button class="day" data-d="29" aria-label="29 de noviembre">29</button><button class="day" data-d="30" aria-label="30 de noviembre">30</button></div>
 
     <section class="ed v-ed" id="vd" hidden="">
       <h2 id="vdt">Viático</h2>
@@ -411,14 +412,14 @@ body.blurred main{filter:blur(14px)}
       <div class="btns"><button id="vrm">Quitar viático</button><button id="vok" class="ok">Listo · Guardar</button></div>
     </section>
 
-    <section class="ed" id="ed" hidden="">
-      <h2 id="edt">Extra</h2>
+    <section class="ed" id="ed">
+      <h2 id="edt">Extra del 15 de noviembre</h2>
       <label for="eq" id="eql">Cantidad (horas)</label>
-      <input id="eq" type="number" inputmode="decimal" min="0" step="0.25">
+      <input id="eq" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Ej: 2">
+      <p class="note" id="eqHint" style="margin:6px 0 0;font-size:12px;color:var(--mute)">Listo: 2 extras × C$ 112 = C$ 224. Ahora toca Guardar.</p>
       <label for="er">✏️ Precio de ESTA hora extra (C$) · EDITABLE · si algún día cambia, cámbialo aquí</label>
       <input id="er" type="number" inputmode="decimal" min="0" step="0.01" placeholder="112" value="112">
-      <p class="note" style="margin:6px 0 0;font-size:12px;color:var(--mute)">Valor actual: C$ 112. Si mañana cambia a otro valor, escribe el nuevo aquí. Solo esta extra usará ese nuevo valor.</p>
-      <p class="verify ev" id="eVerify"></p>
+      <p class="verify ev" id="eVerify">✔ Esta extra: 2 extras × C$ 112.00 = C$ 224.00 · Total extras del mes: C$ 224.00 · Total mes: C$ 224.00</p>
       <div class="detail-box">
         <div class="detail-head"><label for="ec" style="margin:0">📝 Detalles / comentarios</label><span id="ecCount">0 / 200</span></div>
         <textarea id="ec" placeholder="Ej: cierre de inventario, horas extra por entrega urgente..." maxlength="200" rows="3"></textarea>
@@ -426,19 +427,19 @@ body.blurred main{filter:blur(14px)}
         <label class="check"><input type="checkbox" id="ecInc" checked=""><span>Incluir este detalle en el resumen y en la exportación a Excel</span></label>
         <label class="check"><input type="checkbox" id="ecPriv"><span>🔒 Detalle privado — solo se muestra al desbloquear la app</span></label>
       </div>
-      <div class="btns"><button id="erm">Quitar extra</button><button id="eok" class="ok">Listo</button></div>
+      <div class="btns"><button id="erm">Quitar extra</button><button id="eok" class="ok guardar-extra" style="">Guardar</button></div>
     </section>
 
     <section class="pie">
       <h2>Viáticos vs. extras</h2>
       <p class="tip">Toca una parte del gráfico o la lista para ver su detalle.</p>
-      <div id="dm"><div class="donut"><svg viewBox="0 0 200 200" role="img" aria-label="Gráfico de viáticos y extras del mes"><circle class="trk" cx="100" cy="100" r="74"></circle><circle class="sg sv" data-k="v" cx="100" cy="100" r="74" transform="rotate(-90 100 100)" style="stroke-dasharray: 0, 464.955713; stroke-dashoffset: 0px;"></circle><circle class="sg se" data-k="e" cx="100" cy="100" r="74" transform="rotate(-90 100 100)" style="stroke-dasharray: 0, 464.955713; stroke-dashoffset: 0px;"></circle></svg><div class="dc"><span class="l">Sin datos</span><span class="a">—</span><span class="s"></span></div></div><div class="leg"><button class="lg" data-k="v" aria-pressed="false"><i class="dot v"></i><span class="ln"><b>Viáticos</b><small>0% · US$ 0.00</small></span><span class="la">C$ 0.00</span></button><button class="lg" data-k="e" aria-pressed="false"><i class="dot e"></i><span class="ln"><b>Extras</b><small>0% · US$ 0.00</small></span><span class="la">C$ 0.00</span></button></div></div>
+      <div id="dm"><div class="donut"><svg viewBox="0 0 200 200" role="img" aria-label="Gráfico de viáticos y extras del mes"><circle class="trk" cx="100" cy="100" r="74"></circle><circle class="sg sv" data-k="v" cx="100" cy="100" r="74" transform="rotate(-90 100 100)" style="stroke-dasharray: 0, 464.955713; stroke-dashoffset: 0px;"></circle><circle class="sg se" data-k="e" cx="100" cy="100" r="74" transform="rotate(-90 100 100)" style="stroke-dasharray: 0, 464.955713; stroke-dashoffset: 0px;"></circle></svg><div class="dc"><span class="l">Total · C$</span><span class="a">224.00</span><span class="s">≈ US$ 6.12</span></div></div><div class="leg"><button class="lg" data-k="v" aria-pressed="false"><i class="dot v"></i><span class="ln"><b>Viáticos</b><small>0% · US$ 0.00</small></span><span class="la">C$ 0.00</span></button><button class="lg" data-k="e" aria-pressed="false"><i class="dot e"></i><span class="ln"><b>Extras</b><small>100% · US$ 6.12</small></span><span class="la">C$ 224.00</span></button></div></div>
     </section>
 
-    <section class="sum" id="pay"><h2>Pago de extras · cada 15</h2><p class="note">Las extras de un mes se pagan el 15 del mes siguiente.</p><div class="th"><span></span><span>C$</span><span>US$</span></div><div class="row e"><div class="l"><div class="t">Extras de octubre</div><div class="d">Se pagan el 15 de noviembre <span class="chip ">Sin extras</span></div></div><div class="m">0.00</div><div class="u">0.00</div></div><div class="row e"><div class="l"><div class="t">Extras de noviembre</div><div class="d">Se pagan el 15 de diciembre <span class="chip ">Sin extras</span></div></div><div class="m">0.00</div><div class="u">0.00</div></div></section>
-    <section class="sum" id="sum"><h2>Resumen del mes</h2><div class="th"><span></span><span>C$</span><span>US$</span></div><div class="row v"><div class="l"><div class="t">Viáticos 1–10</div><div class="d">0 días · cada uno con su propio monto</div></div><div class="m">0.00</div><div class="u">0.00</div></div><div class="row v"><div class="l"><div class="t">Viáticos 11–30</div><div class="d">0 días · cada uno con su propio monto</div></div><div class="m">0.00</div><div class="u">0.00</div></div><div class="row e"><div class="l"><div class="t">Extras del mes</div><div class="d">0 horas en 0 días · valor actual C$ 112.00 (editable)</div></div><div class="m">0.00</div><div class="u">0.00</div></div><div class="row tot"><div class="l"><div class="t">Total del mes</div></div><div class="m">0.00</div><div class="u">0.00</div></div></section>
+    <section class="sum" id="pay"><h2>Pago de extras · cada 15</h2><p class="note">Las extras de un mes se pagan el 15 del mes siguiente.</p><div class="th"><span></span><span>C$</span><span>US$</span></div><div class="row e"><div class="l"><div class="t">Extras de octubre</div><div class="d">Se pagan el 15 de noviembre <span class="chip ">Sin extras</span></div></div><div class="m">0.00</div><div class="u">0.00</div></div><div class="row e"><div class="l"><div class="t">Extras de noviembre</div><div class="d">Se pagan el 15 de diciembre <span class="chip wait">Faltan 30 días</span></div></div><div class="m">224.00</div><div class="u">6.12</div></div></section>
+    <section class="sum" id="sum"><h2>Resumen del mes</h2><div class="th"><span></span><span>C$</span><span>US$</span></div><div class="row v"><div class="l"><div class="t">Viáticos 1–10</div><div class="d">0 días · cada uno con su propio monto</div></div><div class="m">0.00</div><div class="u">0.00</div></div><div class="row v"><div class="l"><div class="t">Viáticos 11–30</div><div class="d">0 días · cada uno con su propio monto</div></div><div class="m">0.00</div><div class="u">0.00</div></div><div class="row e"><div class="l"><div class="t">Extras del mes</div><div class="d">2 horas en 1 día · valor actual C$ 112 (editable)</div></div><div class="m">224.00</div><div class="u">6.12</div></div><div class="row tot"><div class="l"><div class="t">Total del mes</div></div><div class="m">224.00</div><div class="u">6.12</div></div></section>
     <section class="sum" id="vl" hidden=""></section>
-    <section class="sum" id="xl" hidden=""></section>
+    <section class="sum" id="xl"><h2>Detalle de extras · C$ 112 por extra (editable)</h2><p class="note">Extras en números enteros. 1 extra = C$ 112, 2 extras = C$ 224. Si te equivocaste en las unidades o en el valor, toca ✏️ Editar en la fila.</p><div class="th"><span></span><span>C$</span><span>US$</span></div><div class="drow e"><div class="l"><div class="t">Día 15: 2 horas</div><div class="d">2 × C$ 112.00 = C$ 224.00</div></div><div class="m">224.00</div><div class="u">6.12</div><button type="button" class="edit-btn" data-edit-e="15" aria-label="Editar extra del día 15">✏️ Editar</button></div></section>
     <button class="clear" id="clear">Limpiar este mes</button>
   </div>
 
@@ -562,7 +563,7 @@ body.blurred main{filter:blur(14px)}
     <p class="ios-note" style="text-align:center">Viáticos Pro · v2.0 · Hecho para iOS · Tus datos viven solo en este teléfono.</p>
   </div>
 
-  <p class="foot">PRO v3.2 · Hora extra C$ 112 por defecto y EDITABLE. Si el valor cambia algún día, cámbialo con ✏️ Editar valor y solo las nuevas extras usarán el nuevo valor. Cada viático y cada extra guarda su propio monto, así que cambiar el valor ya no recalcula lo que guardaste. Todo se guarda en este teléfono. Cada mes conserva la tasa del dólar de ese momento. Las extras de un mes se pagan el 15 del mes siguiente.</p>
+  <p class="foot">PRO v3.3 · Extras solo en enteros. Casilla Extras para las unidades. Botón Guardar al terminar. Hora extra C$ 112 por defecto y EDITABLE. Cada viático y cada extra guarda su propio monto. Todo se guarda en este teléfono. Cada mes conserva la tasa del dólar de ese momento. Las extras de un mes se pagan el 15 del mes siguiente.</p>
 </main>
 
 <script>
@@ -590,8 +591,8 @@ body.blurred main{filter:blur(14px)}
   function curKey(){var t=today();return mk(t.getFullYear(),t.getMonth())}
   var T0=today(), Y=T0.getFullYear(), M=T0.getMonth(), HY=Y, view='m', mode='v', askClear=false, askTimer=null, editing=null, editingV=null, dm, dy;
 
-  /* ---------- PRO v3.2 · Hora extra: C$ 112 por defecto, PERO EDITABLE ---------- */
-  /* Si algún día cambia el valor, lo cambias y solo las NUEVAS extras usan el nuevo valor. Las viejas quedan con el valor que tenían. */
+  /* ---------- PRO v3.3 · Hora extra: C$ 112 por defecto, PERO EDITABLE ---------- */
+  /* Si algún día cambia el valor, lo cambias y solo las NUEVAS extras usan el nuevo valor. Las viejas quedan con el que tenían. */
   var EXTRA_DEFECTO=112;
   /* ---------- tarifas por mes (heredan del mes anterior) ---------- */
   function ratesFor(k){
@@ -602,7 +603,6 @@ body.blurred main{filter:blur(14px)}
       if(prev.length)base=S.rates[prev[prev.length-1]];
       else base=ks.length?S.rates[ks[0]]:{v:0,e:EXTRA_DEFECTO};
     }
-    // Si no hay valor guardado, usa 112. Si ya guardaste otro valor, respeta ese valor.
     var e=(base.e!==undefined&&base.e!==null&&base.e!=='')?base.e:EXTRA_DEFECTO;
     return {v:base.v||0, e:e};
   }
@@ -639,6 +639,8 @@ body.blurred main{filter:blur(14px)}
       Object.keys(S.x[k]||{}).forEach(function(dd){
         var o=S.x[k][dd]; if(!o) return;
         if(o.r===undefined||o.r===null||o.r==='')o.r=R.e||EXTRA_DEFECTO;
+        // PRO v3.3: extras siempre en enteros. Si una extra vieja tenía 2.5, queda en 3.
+        o.q=Math.max(0,Math.round(parseFloat(o.q)||0));
         syncDayFlag(k,parseInt(dd,10));
       });
     });
@@ -684,7 +686,7 @@ body.blurred main{filter:blur(14px)}
         vlist.push({d:d,amt:vamt,c:vo.c||'',inc:true,priv:false});
       }
       if(he){
-        var o=X(k,d); q=parseFloat(o.q)||0; eamt=extraAmt(o,R);
+        var o=X(k,d); q=Math.round(parseFloat(o.q)||0); eamt=extraAmt(o,R);
         exq+=q; exd++; ae+=eamt;
         list.push({d:d,q:q,c:o.c,inc:o.inc,priv:o.priv,r:(o.r!==undefined?o.r:R.e),amt:eamt});
       }
@@ -846,7 +848,7 @@ body.blurred main{filter:blur(14px)}
     $('#sum').innerHTML='<h2>Resumen del mes</h2>'+TH+
       row('v','Viáticos 1–10',plural(c.v1,'día','días')+' · cada uno con su propio monto',c.a1)+
       row('v','Viáticos 11–'+c.dim,plural(c.v2,'día','días')+' · cada uno con su propio monto',c.a2)+
-      row('e','Extras del mes',qty(c.exq)+' '+unitTxt(c.exq)+' en '+plural(c.exd,'día','días')+' · valor actual C$ '+money(R.e).replace('C$ ','')+' (editable)',c.ae)+
+      row('e','Extras del mes',qty(c.exq)+' '+unitTxt(c.exq)+' en '+plural(c.exd,'día','días')+' · valor actual C$ '+R.e+' (editable)',c.ae)+
       row('tot','Total del mes','',c.total);
 
     /* PRO v3 · Detalle de viáticos: UNA FILA POR VIÁTICO, con su monto y botón Editar */
@@ -862,7 +864,7 @@ body.blurred main{filter:blur(14px)}
     }else{vl.hidden=true;vl.innerHTML=''}
     var xl=$('#xl');
     if(c.list.length){
-      var xh='<h2>Detalle de extras · C$ '+R.e+' por hora (editable)</h2><p class="note">Cada hora extra vale C$ '+R.e+' por defecto. Solo escribes cuántas horas: 1 hora = C$ '+R.e+', 2 horas = C$ '+(R.e*2)+'. Si el valor cambia algún día o te equivocaste, toca ✏️ Editar en la fila y cambia el valor de esa extra.</p>'+TH;
+      var xh='<h2>Detalle de extras · C$ '+R.e+' por extra (editable)</h2><p class="note">Extras en números enteros. 1 extra = C$ '+R.e+', 2 extras = C$ '+(R.e*2)+'. Si te equivocaste en las unidades o en el valor, toca ✏️ Editar en la fila.</p>'+TH;
       c.list.forEach(function(it){
         var showC = S.settings.showComments && it.c;
         var tag = '';
@@ -964,10 +966,40 @@ body.blurred main{filter:blur(14px)}
   });
 
   /* ---------- eventos del mes ---------- */
+  /* PRO v3.3 · Extras solo enteros + botón Guardar */
+  function enteroExtras(v){
+    if(v===''||v===null||v===undefined)return 0;
+    var n=Math.round(parseFloat(String(v).replace(',','.'))||0);
+    return Math.max(0,n);
+  }
+  function refreshGuardarExtra(){
+    var btn=$('#eok'), inp=$('#eq');
+    if(!btn||!inp)return;
+    var raw=String(inp.value).trim();
+    var n=raw==='' ? NaN : parseInt(raw,10);
+    var esEntero = raw!=='' && !isNaN(n) && n>=0 && String(n)===raw && Number.isInteger(n);
+    // Si escribió decimal (2.5), lo corregimos a entero y lo mostramos
+    if(raw!=='' && !esEntero && !isNaN(parseFloat(raw))){
+      var corr=enteroExtras(raw);
+      inp.value=corr;
+      esEntero=true;
+      var hint=$('#eqHint');
+      if(hint)hint.textContent='Solo enteros: lo dejé en '+corr+' (sin decimales). Ej: '+corr+' extras = '+corr+' × C$ '+(parseFloat($('#er').value)||EXTRA_DEFECTO)+' = C$ '+(corr*(parseFloat($('#er').value)||EXTRA_DEFECTO))+'.';
+    }
+    // Guardar aparece cuando ya metiste las unidades (entero válido). Si está vacío, se oculta.
+    btn.hidden = !(esEntero && n>=1);
+    btn.disabled = !(esEntero && n>=1);
+    btn.style.display = (esEntero && n>=1) ? '' : 'none';
+    if(esEntero && n>=1){
+      var r=parseFloat($('#er').value)||EXTRA_DEFECTO;
+      var hint2=$('#eqHint');
+      if(hint2)hint2.textContent='Listo: '+n+' extras × C$ '+r+' = C$ '+(n*r)+'. Ahora toca Guardar.';
+    }
+  }
   function updEVerify(){
     if(editing===null)return;
     var k=mk(Y,M), o=X(k,editing), R=ratesFor(k), amt=extraAmt(o,R), c=calcMonth(Y,M);
-    var ev=$('#eVerify'); if(ev)ev.textContent='✔ Esta extra: '+qty(o.q)+' × '+money(o.r!==undefined?o.r:R.e)+' = '+money(amt)+' · Total extras del mes: '+money(c.ae)+' · Total mes: '+money(c.total);
+    var ev=$('#eVerify'); if(ev)ev.textContent='✔ Esta extra: '+Math.round(o.q)+' extras × '+money(o.r!==undefined?o.r:R.e)+' = '+money(amt)+' · Total extras del mes: '+money(c.ae)+' · Total mes: '+money(c.total);
   }
   function updVVerify(){
     if(editingV===null)return;
@@ -981,9 +1013,12 @@ body.blurred main{filter:blur(14px)}
   function openEd(d){
     var k=mk(Y,M), o=X(k,d), R=ratesFor(k);
     if(o.r===undefined||o.r===null||o.r===''){ o.r=R.e||EXTRA_DEFECTO; setX(k,d,{q:o.q,c:o.c,inc:o.inc,priv:o.priv,r:o.r}); }
+    // PRO v3.3: forzar entero al abrir
+    o.q=Math.max(0,Math.round(parseFloat(o.q)||0));
     editing=d; editingV=null;
     $('#edt').textContent='Extra del '+d+' de '+MES[M];
     $('#eq').value=o.q;
+    refreshGuardarExtra();
     $('#er').value=(o.r!==undefined?o.r:R.e);
     $('#ec').value=o.c||'';
     $('#ecInc').checked=o.inc!==false;
@@ -1056,18 +1091,27 @@ body.blurred main{filter:blur(14px)}
   }
   $('#rv').addEventListener('input',onRate);
   $('#re').addEventListener('input',onRate);
-  /* PRO v3.2 · Botón Editar valor: enfoca el campo del valor de la hora extra para cambiarlo */
   var _erb=document.getElementById('editReBtn');
   if(_erb){ _erb.onclick=function(){ var el=$('#re'); try{el.focus(); el.select(); el.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){} toast('Edita el valor de la hora extra y se guardará para las nuevas extras'); }; }
   $('#ru').addEventListener('input',function(){S.unit=$('#ru').value.trim()||'unidad';save();renderMes()});
 
   $('#eq').addEventListener('input',function(){
     if(editing===null)return;var k=mk(Y,M),o=X(k,editing);
-    setX(k,editing,{q:Math.max(0,parseFloat($('#eq').value)||0),c:o.c,inc:o.inc,priv:o.priv,r:o.r});save();renderMes();updEVerify();
+    var qent=enteroExtras($('#eq').value);
+    // Si escribió 2.5, el campo ya se corrige a 3 en refreshGuardarExtra, pero guardamos el entero
+    if(String($('#eq').value).trim()!=='' && String(qent)!==String($('#eq').value).trim()){ $('#eq').value=qent; }
+    setX(k,editing,{q:qent,c:o.c,inc:o.inc,priv:o.priv,r:o.r});save();renderMes();updEVerify();refreshGuardarExtra();
   });
+  // Si pega o cambia y sale del campo, también forzar entero
+  $('#eq').addEventListener('change',function(){
+    if(editing===null)return;var k=mk(Y,M),o=X(k,editing);
+    var qent=enteroExtras($('#eq').value); $('#eq').value=qent;
+    setX(k,editing,{q:qent,c:o.c,inc:o.inc,priv:o.priv,r:o.r});save();renderMes();updEVerify();refreshGuardarExtra();
+  });
+  $('#eq').addEventListener('blur',function(){ refreshGuardarExtra(); });
   $('#er').addEventListener('input',function(){
     if(editing===null)return;var k=mk(Y,M),o=X(k,editing);
-    setX(k,editing,{q:o.q,c:o.c,inc:o.inc,priv:o.priv,r:Math.max(0,parseFloat($('#er').value)||0)});save();renderMes();updEVerify();
+    setX(k,editing,{q:o.q,c:o.c,inc:o.inc,priv:o.priv,r:Math.max(0,parseFloat($('#er').value)||0)});save();renderMes();updEVerify();refreshGuardarExtra();
   });
   $('#ec').addEventListener('input',function(){
     if(editing===null)return;var k=mk(Y,M),o=X(k,editing);
@@ -1076,7 +1120,7 @@ body.blurred main{filter:blur(14px)}
   });
   $('#ecInc').addEventListener('change',function(){if(editing===null)return;var k=mk(Y,M),o=X(k,editing);setX(k,editing,{q:o.q,c:o.c,inc:$('#ecInc').checked,priv:o.priv,r:o.r});save();renderMes();updEVerify();});
   $('#ecPriv').addEventListener('change',function(){if(editing===null)return;var k=mk(Y,M),o=X(k,editing);setX(k,editing,{q:o.q,c:o.c,inc:o.inc,priv:$('#ecPriv').checked,r:o.r});save();renderMes();updEVerify();});
-  $('#eok').onclick=function(){editing=null;renderMes();toast('Extra guardada ✓')};
+  $('#eok').onclick=function(){ if(this.hidden||this.disabled)return; if(editing===null)return; var k=mk(Y,M),o=X(k,editing); var qent=enteroExtras($('#eq').value); if(!(qent>=1)){ toast('Mete las unidades en Extras (ej: 2)'); return; } setX(k,editing,{q:qent,c:o.c,inc:o.inc,priv:o.priv,r:o.r}); save(); editing=null;renderMes();toast('Extra guardada ✓'); };
   $('#erm').onclick=function(){
     if(editing===null)return;var k=mk(Y,M);
     if(S.x[k])delete S.x[k][editing];
@@ -1229,7 +1273,7 @@ body.blurred main{filter:blur(14px)}
     files.push({name:'xl/_rels/workbook.xml.rels',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet3.xml"/></Relationships>'});
     files.push({name:'xl/worksheets/sheet1.xml',data:sheetXml(d.sum)});
     files.push({name:'xl/worksheets/sheet2.xml',data:sheetXml(d.det)});
-    var adj=[['Ajuste','Valor'],['Moneda principal',S.settings.currency+' '+curInfo().sym],['Tema',S.settings.theme],['Color',S.settings.accent],['Fuente',S.settings.font],['Unidad extras',S.unit],['Exportado el',new Date().toLocaleString('es')],['App','Viáticos Pro v3.2 · Hora extra C$ 112 editable']];
+    var adj=[['Ajuste','Valor'],['Moneda principal',S.settings.currency+' '+curInfo().sym],['Tema',S.settings.theme],['Color',S.settings.accent],['Fuente',S.settings.font],['Unidad extras',S.unit],['Exportado el',new Date().toLocaleString('es')],['App','Viáticos Pro v3.3 · Extras enteros · Guardar · Hora extra C$ 112 editable']];
     files.push({name:'xl/worksheets/sheet3.xml',data:sheetXml(adj)});
     // ZIP stored (sin compresión) - compatible con Excel / Numbers
     var enc=new TextEncoder();var parts=[];var central=[];var offset=0;
